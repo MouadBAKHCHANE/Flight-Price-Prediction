@@ -75,9 +75,8 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # --- Top Navigation ---
-c_nav1, c_nav2, c_nav3 = st.columns([1, 6, 1])
-with c_nav2:
-    page = st.radio("Navigation", ["Home", "Dashboard", "Predict", "About Me"], horizontal=True, label_visibility="collapsed")
+# Left aligned
+page = st.radio("Navigation", ["Home", "Dashboard", "Predict", "About Me"], horizontal=True, label_visibility="collapsed")
 
 # --- Pages ---
 
@@ -112,7 +111,7 @@ elif page == "Dashboard":
     if df is not None:
         # --- Filters in Sidebar ---
         with st.sidebar:
-            # CSS to compact the selectboxes
+            # CSS to compact the selectboxes - Updated for pills/radio where applicable or general spacing
             st.markdown("""
                 <style>
                 div[data-testid="stSidebar"] div[data-baseweb="select"] > div {
@@ -133,13 +132,13 @@ elif page == "Dashboard":
             """, unsafe_allow_html=True)
             
             # Removed redundant "---" to move upper
-            st.markdown("### Filter Data") # Changed header to markdown for better size control
-            dept_city = st.selectbox("Departure City", options=['All'] + list(df['source_city'].unique()))
-            arr_city = st.selectbox("Arrival City", options=['All'] + list(df['destination_city'].unique()))
-            airline_filter = st.selectbox("Airline", options=['All'] + list(df['airline'].unique()))
-            service_class = st.selectbox("Service Class", options=['All'] + list(df['class'].unique()))
-            stops_filter = st.selectbox("Stops", options=['All'] + list(df['stops'].unique()))
-            time_filter = st.selectbox("Departure Time", options=['All'] + list(df['departure_time'].unique()))
+            st.markdown("### Filter Data") 
+            dept_city = st.pills("Departure City", options=['All'] + list(df['source_city'].unique()), default='All', selection_mode="single")
+            arr_city = st.pills("Arrival City", options=['All'] + list(df['destination_city'].unique()), default='All', selection_mode="single")
+            airline_filter = st.pills("Airline", options=['All'] + list(df['airline'].unique()), default='All', selection_mode="single")
+            service_class = st.pills("Service Class", options=['All'] + list(df['class'].unique()), default='All', selection_mode="single")
+            stops_filter = st.pills("Stops", options=['All'] + list(df['stops'].unique()), default='All', selection_mode="single")
+            time_filter = st.pills("Departure Time", options=['All'] + list(df['departure_time'].unique()), default='All', selection_mode="single")
 
         # Apply Filters
         df_filtered = df.copy()
